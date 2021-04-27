@@ -1,4 +1,5 @@
 import expect from "expect"
+import sinon from "sinon"
 import { createRunner } from "../../src"
 
 type Components = {
@@ -92,10 +93,28 @@ test("logic tests", ({ components, stubComponents }) => {
     stubComponents.componentB.counter.returns(19)
     expect(componentB.counter()).toEqual(19)
   })
+  it("stubs should reset between test cases", async () => {
+    expect(components.componentB.counter()).toEqual(undefined)
+  })
+
   it("accessing stub and real components should yield the same results", async () => {
     stubComponents.componentB.counter.returns(33)
     expect(components.componentB.counter()).toEqual(33)
 
     expect(components.componentB).toEqual(stubComponents.componentB)
+  })
+
+  it("stub methods should be restorable", async () => {
+    stubComponents.componentB.counter.restore()
+    expect(stubComponents.componentB.counter()).toEqual(0)
+  })
+  it("restored stubs should remain that way between test cases", async () => {
+    expect(stubComponents.componentB.counter()).toEqual(0)
+  })
+  it("restored stubs should be re-stubabble", async () => {
+    sinon.stub(stubComponents.componentB, "counter")
+
+    stubComponents.componentB.counter.returns(33)
+    expect(components.componentB.counter()).toEqual(33)
   })
 })
