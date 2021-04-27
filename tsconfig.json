@@ -6,7 +6,8 @@
     "declarationMap": true, /* Generates a sourcemap for each corresponding '.d.ts' file. */
     "sourceMap": true, /* Generates corresponding '.map' file. */
     "types": [
-      "node"
+      "node",
+      "mocha"
     ],
     "strict": true,
     "outDir": "./dist", /* Redirect output structure to the directory. */
