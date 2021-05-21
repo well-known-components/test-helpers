@@ -12,6 +12,18 @@ export type TestArguments<TestComponents extends Record<string, any>> = {
   }
 }
 
+declare var before: typeof beforeAll
+declare var after: typeof afterAll
+
+const _beforeAll: typeof beforeAll =
+  typeof beforeAll != "undefined" ? beforeAll : typeof before != "undefined" ? before : undefined!
+const _afterAll: typeof beforeAll =
+  typeof afterAll != "undefined" ? afterAll : typeof after != "undefined" ? after : undefined!
+
+if (!_beforeAll || !_afterAll) {
+  throw new Error("Neither before or beforeAll are defined in the globalThis")
+}
+
 /**
  * Creates a test runner. Receives the same arguments as Lifecycle.run
  * @public
@@ -60,7 +72,7 @@ export function createRunner<TestComponents extends Record<string, any>>(
     }
 
     describe(name, () => {
-      beforeAll(async () => {
+      _beforeAll(async () => {
         program = await Lifecycle.run<TestComponents>(options)
       })
 
@@ -78,7 +90,7 @@ export function createRunner<TestComponents extends Record<string, any>>(
 
       suite(testArgs)
 
-      afterAll(async () => {
+      _afterAll(async () => {
         if (program) {
           await program.stop()
         }
