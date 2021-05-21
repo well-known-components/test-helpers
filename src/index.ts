@@ -60,7 +60,7 @@ export function createRunner<TestComponents extends Record<string, any>>(
     }
 
     describe(name, () => {
-      before(async () => {
+      beforeAll(async () => {
         program = await Lifecycle.run<TestComponents>(options)
       })
 
@@ -78,7 +78,7 @@ export function createRunner<TestComponents extends Record<string, any>>(
 
       suite(testArgs)
 
-      after(async () => {
+      afterAll(async () => {
         if (program) {
           await program.stop()
         }

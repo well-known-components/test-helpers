@@ -7,7 +7,7 @@
     "sourceMap": true, /* Generates corresponding '.map' file. */
     "types": [
       "node",
-      "mocha"
+      "jest"
     ],
     "strict": true,
     "outDir": "./dist", /* Redirect output structure to the directory. */
