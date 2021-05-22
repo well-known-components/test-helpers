@@ -1,5 +1,4 @@
 import expect from "expect"
-import sinon from "sinon"
 import { createRunner } from "../../src"
 
 type Components = {

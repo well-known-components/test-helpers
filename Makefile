@@ -4,6 +4,7 @@ LOCAL_ARG = --local --verbose --diagnostics
 endif
 
 test:
+	./node_modules/.bin/jest --forceExit --detectOpenHandles --coverage --verbose
 	./node_modules/.bin/mocha
 
 build:
