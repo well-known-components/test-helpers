@@ -4,8 +4,13 @@
 
 ```ts
 
+import { IConfigComponent } from '@well-known-components/interfaces';
+import { IFetchComponent } from '@well-known-components/http-server';
 import { Lifecycle } from '@well-known-components/interfaces';
 import { default as sinon_2 } from 'sinon';
+
+// @public
+export function createLocalFetchCompoment(configComponent: IConfigComponent): Promise<IFetchComponent>;
 
 // @public
 export function createRunner<TestComponents extends Record<string, any>>(options: Lifecycle.ProgramConfig<TestComponents>): (name: string, suite: (testArgs: TestArguments<TestComponents>) => void) => void;

@@ -1,4 +1,5 @@
 import { Lifecycle } from "@well-known-components/interfaces"
+
 import sinon from "sinon"
 
 /**
@@ -11,6 +12,8 @@ export type TestArguments<TestComponents extends Record<string, any>> = {
     readonly [T in keyof TestComponents]: sinon.SinonStubbedInstance<TestComponents[T]>
   }
 }
+
+export { createLocalFetchCompoment } from "./localFetch"
 
 declare var before: typeof beforeAll
 declare var after: typeof afterAll
@@ -28,6 +31,7 @@ if (!_beforeAll || !_afterAll) {
  * Creates a test runner. Receives the same arguments as Lifecycle.run
  * @public
  */
+
 export function createRunner<TestComponents extends Record<string, any>>(
   options: Lifecycle.ProgramConfig<TestComponents>
 ) {
