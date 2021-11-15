@@ -4,6 +4,7 @@ import { IFetchComponent } from "@well-known-components/http-server"
 import { IConfigComponent } from "@well-known-components/interfaces"
 
 // start TCP port for listeners
+/* istanbul ignore next */
 let lastUsedPort = 19000 + parseInt(process.env.JEST_WORKER_ID || "1") * 1000
 
 function getFreePort() {
