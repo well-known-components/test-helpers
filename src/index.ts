@@ -13,7 +13,7 @@ export type TestArguments<TestComponents extends Record<string, any>> = {
   }
 }
 
-export { createLocalFetchCompoment } from "./localFetch"
+export { createLocalFetchCompoment, defaultServerConfig } from "./localFetch"
 
 declare var before: typeof beforeAll
 declare var after: typeof afterAll

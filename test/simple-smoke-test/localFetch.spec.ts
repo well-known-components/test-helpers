@@ -3,7 +3,7 @@ import { IHttpServerComponent } from "@well-known-components/interfaces"
 
 import expect from "expect"
 import { createRunner } from "../../src"
-import { createLocalFetchCompoment } from "../../src/localFetch"
+import { createLocalFetchCompoment, defaultServerConfig } from "../../src/localFetch"
 
 type Components = {
   fetch: IFetchComponent,
@@ -22,12 +22,12 @@ const logs = {
     warn: (message: string) => {},
   })
 }
-
+const configMap = defaultServerConfig()
 const config = {
   getString: async (a: string) => a,
   getNumber: async (a: string) => Number(a),
-  requireNumber: async (a: string) => Number(process.env[a])!,
-  requireString: async (a: string) => process.env[a]!,
+  requireNumber: async (a: keyof typeof configMap) => Number(configMap[a])!,
+  requireString: async (a: keyof typeof configMap) => configMap[a]!,
 }
 
 const ROUTE_URL = '/some-route'
@@ -37,8 +37,7 @@ const test = createRunner<Components>({
   async main({ startComponents, components }) {
     const router = new Router<GlobalContext>()
 
-    router.get(ROUTE_URL, async (ctx) => {
-      console.log('POSTING')
+    router.get(ROUTE_URL, async (_ctx) => {
      return { status: 200, body: RESPONSE }
     })
 

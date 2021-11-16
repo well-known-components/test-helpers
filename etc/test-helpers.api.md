@@ -16,6 +16,12 @@ export function createLocalFetchCompoment(configComponent: IConfigComponent): Pr
 export function createRunner<TestComponents extends Record<string, any>>(options: Lifecycle.ProgramConfig<TestComponents>): (name: string, suite: (testArgs: TestArguments<TestComponents>) => void) => void;
 
 // @public
+export const defaultServerConfig: () => {
+    HTTP_SERVER_HOST: string;
+    HTTP_SERVER_PORT: string;
+};
+
+// @public
 export type TestArguments<TestComponents extends Record<string, any>> = {
     components: Readonly<TestComponents>;
     stubComponents: {
