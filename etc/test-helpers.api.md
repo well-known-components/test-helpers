@@ -4,11 +4,22 @@
 
 ```ts
 
+import { IConfigComponent } from '@well-known-components/interfaces';
+import { IFetchComponent } from '@well-known-components/http-server';
 import { Lifecycle } from '@well-known-components/interfaces';
 import { default as sinon_2 } from 'sinon';
 
 // @public
+export function createLocalFetchCompoment(configComponent: IConfigComponent): Promise<IFetchComponent>;
+
+// @public
 export function createRunner<TestComponents extends Record<string, any>>(options: Lifecycle.ProgramConfig<TestComponents>): (name: string, suite: (testArgs: TestArguments<TestComponents>) => void) => void;
+
+// @public
+export const defaultServerConfig: () => {
+    HTTP_SERVER_HOST: string;
+    HTTP_SERVER_PORT: string;
+};
 
 // @public
 export type TestArguments<TestComponents extends Record<string, any>> = {
