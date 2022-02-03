@@ -5,7 +5,6 @@ endif
 
 test:
 	./node_modules/.bin/jest --forceExit --detectOpenHandles --coverage --verbose
-	./node_modules/.bin/mocha
 
 build:
 	./node_modules/.bin/tsc -p tsconfig.json

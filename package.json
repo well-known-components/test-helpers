@@ -21,20 +21,18 @@
   },
   "homepage": "https://github.com/well-known-components/test-helpers#readme",
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.12.1",
-    "@types/mocha": "^8.2.2",
+    "@microsoft/api-extractor": "^7.19.4",
     "@well-known-components/http-server": "^1.1.1",
-    "@well-known-components/interfaces": "^1.1.0",
-    "mocha": "^8.4.0",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "@well-known-components/interfaces": "^1.1.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^27.4.0",
     "@types/sinon": "^10.0.0",
-    "jest": "^26.6.3",
+    "jest": "^27.4.7",
     "sinon": "^10.0.0",
-    "ts-jest": "^26.5.6"
+    "ts-jest": "^27.1.3"
   },
   "peerDependencies": {
     "@well-known-components/http-server": "^1.1.1",
