@@ -9,6 +9,9 @@ import { IFetchComponent } from '@well-known-components/http-server';
 import { Lifecycle } from '@well-known-components/interfaces';
 import { default as sinon_2 } from 'sinon';
 
+// @public (undocumented)
+export type BeforeStartFunction<TestComponents extends Record<string, any> = any> = () => Promise<void> | void;
+
 // @public
 export function createLocalFetchCompoment(configComponent: IConfigComponent): Promise<IFetchComponent>;
 
@@ -27,8 +30,8 @@ export type TestArguments<TestComponents extends Record<string, any>> = {
     stubComponents: {
         readonly [T in keyof TestComponents]: sinon_2.SinonStubbedInstance<TestComponents[T]>;
     };
+    beforeStart(fn: BeforeStartFunction<TestComponents>): void;
 };
-
 
 // (No @packageDocumentation comment for this package)
 

@@ -11,7 +11,14 @@ export type TestArguments<TestComponents extends Record<string, any>> = {
   stubComponents: {
     readonly [T in keyof TestComponents]: sinon.SinonStubbedInstance<TestComponents[T]>
   }
+
+  /**
+   * Functions to run before the Lifecycle helpers start the components' lifecycle
+   */
+  beforeStart(fn: BeforeStartFunction<TestComponents>): void
 }
+
+export type BeforeStartFunction<TestComponents extends Record<string, any> = any> = () => Promise<void> | void
 
 export { createLocalFetchCompoment, defaultServerConfig } from "./localFetch"
 
@@ -56,6 +63,8 @@ export function createRunner<TestComponents extends Record<string, any>>(
       return stubComponentInstances.get(key)!
     }
 
+    const beforeStartFunctions: BeforeStartFunction[] = []
+
     const testArgs: TestArguments<TestComponents> = {
       components: new Proxy(
         {},
@@ -73,10 +82,15 @@ export function createRunner<TestComponents extends Record<string, any>>(
           },
         }
       ) as any,
+      beforeStart(fn) {
+        beforeStartFunctions.push(fn)
+      },
     }
 
     describe(name, () => {
       _beforeAll(async () => {
+        jest.resetModules()
+        for (let fn of beforeStartFunctions) await fn()
         program = await Lifecycle.run<TestComponents>(options)
       })
 
@@ -86,10 +100,12 @@ export function createRunner<TestComponents extends Record<string, any>>(
         // reset spy objects
         sinon.reset()
         sinon.resetBehavior()
+        jest.resetAllMocks()
       })
 
       afterEach(() => {
         sandbox.restore()
+        jest.restoreAllMocks()
       })
 
       suite(testArgs)
