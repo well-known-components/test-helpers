@@ -18,6 +18,7 @@ export type TestArguments<TestComponents extends Record<string, any>> = {
   beforeStart(fn: BeforeStartFunction<TestComponents>): void
 }
 
+/** @public */
 export type BeforeStartFunction<TestComponents extends Record<string, any> = any> = () => Promise<void> | void
 
 export { createLocalFetchCompoment, defaultServerConfig } from "./localFetch"
