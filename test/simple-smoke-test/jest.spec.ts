@@ -84,3 +84,42 @@ test("mocking component B", ({ components }) => {
     })
   }
 })
+
+
+
+test("mocking component with spy", ({ components, spyComponents }) => {
+  // this should throw because we are at "test declaration stage" and components don't exist yet
+  expect(() => components.componentB.sum(1, 2)).toThrow(
+    "Cannot get the components before the test program is initialized"
+  )
+
+  it("tests without mock", async () => {
+    const { componentB } = components
+    expect(componentB.counter()).toEqual(0)
+    expect(componentB.sum(1, 2)).toEqual(3)
+    expect(componentB.counter()).toEqual(1)
+  })
+
+  it("same components instances should be used inside tests of the same run", async () => {
+    const { componentB } = components
+    expect(componentB.counter()).toEqual(1)
+  })
+  if (typeof jest != "undefined") {
+    it("tests with mock", async () => {
+      const { componentB } = components
+      spyComponents.componentB.sum.mockImplementation((a, b) => {
+        return 4
+      })
+      expect(componentB.sum(1, 2)).toEqual(4)
+      expect(componentB.sum).toHaveBeenCalledTimes(1)
+    })
+    it("tests with mock resets", async () => {
+      const { componentB } = components
+      spyComponents.componentB.sum.mockImplementation((a, b) => {
+        return 4
+      })
+      expect(componentB.sum(1, 2)).toEqual(4)
+      expect(componentB.sum).toHaveBeenCalledTimes(1)
+    })
+  }
+})

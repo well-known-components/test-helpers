@@ -11,6 +11,9 @@ export type TestArguments<TestComponents extends Record<string, any>> = {
   stubComponents: {
     readonly [T in keyof TestComponents]: sinon.SinonStubbedInstance<TestComponents[T]>
   }
+  spyComponents: {
+    readonly [T in keyof TestComponents]: SpiedInstance<TestComponents[T]>
+  }
 
   /**
    * Functions to run before the Lifecycle helpers start the components' lifecycle
@@ -36,6 +39,16 @@ if (!_beforeAll || !_afterAll) {
 }
 
 /**
+ * @public
+ * @deprecated unstable
+ */
+export type SpiedInstance<TType extends {}> = {
+  [P in keyof TType]: Required<TType>[P] extends (...args: any[]) => any
+    ? jest.SpyInstance<ReturnType<Required<TType>[P]>, jest.ArgsType<Required<TType>[P]>>
+    : never
+}
+
+/**
  * Creates a test runner. Receives the same arguments as Lifecycle.run
  * @public
  */
@@ -47,6 +60,7 @@ export function createRunner<TestComponents extends Record<string, any>>(
     let program: Lifecycle.ComponentBasedProgram<TestComponents>
     let sandbox: sinon.SinonSandbox
     const stubComponentInstances = new Map<keyof TestComponents, sinon.SinonStubbedInstance<any>>()
+    const spyComponentInstances = new Map<keyof TestComponents, SpiedInstance<any>>()
 
     function getComponent(key: string) {
       if (!program) throw new Error("Cannot get the components before the test program is initialized")
@@ -62,6 +76,22 @@ export function createRunner<TestComponents extends Record<string, any>>(
         stubComponentInstances.set(key, sinon.stub(getComponent(key)))
       }
       return stubComponentInstances.get(key)!
+    }
+
+    /** @deprecated unstable */
+    function spyComponent(key: string): SpiedInstance<TestComponents[any]> {
+      if (!spyComponentInstances.has(key)) {
+        spyComponentInstances.set(key, spy(getComponent(key)))
+      }
+      return spyComponentInstances.get(key)!
+    }
+
+    function spy<T extends {}>(module: T): SpiedInstance<T> {
+      const ret = {} as SpiedInstance<T>
+      for (let key in module) {
+        ret[key as keyof T] = jest.spyOn(module, key as any) as any
+      }
+      return ret
     }
 
     const beforeStartFunctions: BeforeStartFunction[] = []
@@ -80,6 +110,14 @@ export function createRunner<TestComponents extends Record<string, any>>(
         {
           get(obj, key) {
             return stubComponent(key as any)
+          },
+        }
+      ) as any,
+      spyComponents: new Proxy(
+        {},
+        {
+          get(obj, key) {
+            return spyComponent(key as any)
           },
         }
       ) as any,
@@ -102,6 +140,7 @@ export function createRunner<TestComponents extends Record<string, any>>(
         sinon.reset()
         sinon.resetBehavior()
         jest.resetAllMocks()
+        spyComponentInstances.clear()
       })
 
       afterEach(() => {

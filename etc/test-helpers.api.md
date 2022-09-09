@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="jest" />
+
 import { IConfigComponent } from '@well-known-components/interfaces';
 import { IFetchComponent } from '@well-known-components/http-server';
 import { Lifecycle } from '@well-known-components/interfaces';
@@ -24,11 +26,19 @@ export const defaultServerConfig: () => {
     HTTP_SERVER_PORT: string;
 };
 
+// @public @deprecated (undocumented)
+export type SpiedInstance<TType extends {}> = {
+    [P in keyof TType]: Required<TType>[P] extends (...args: any[]) => any ? jest.SpyInstance<ReturnType<Required<TType>[P]>, jest.ArgsType<Required<TType>[P]>> : never;
+};
+
 // @public
 export type TestArguments<TestComponents extends Record<string, any>> = {
     components: Readonly<TestComponents>;
     stubComponents: {
         readonly [T in keyof TestComponents]: sinon_2.SinonStubbedInstance<TestComponents[T]>;
+    };
+    spyComponents: {
+        readonly [T in keyof TestComponents]: SpiedInstance<TestComponents[T]>;
     };
     beforeStart(fn: BeforeStartFunction<TestComponents>): void;
 };
