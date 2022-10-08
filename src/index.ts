@@ -89,7 +89,9 @@ export function createRunner<TestComponents extends Record<string, any>>(
     function spy<T extends {}>(module: T): SpiedInstance<T> {
       const ret = {} as SpiedInstance<T>
       for (let key in module) {
-        ret[key as keyof T] = jest.spyOn(module, key as any) as any
+        if (typeof module[key] === "function") {
+          ret[key as keyof T] = jest.spyOn(module, key as any) as any
+        }
       }
       return ret
     }

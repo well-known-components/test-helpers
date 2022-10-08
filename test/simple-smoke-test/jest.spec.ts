@@ -8,6 +8,7 @@ type Components = {
   componentB: {
     sum(a: number, b: number): number
     counter(): number
+    t: number
   }
 }
 
@@ -31,6 +32,7 @@ const test = createRunner<Components>({
       counter() {
         return counter
       },
+      t: 3
     }
 
     return { componentA, componentB }
