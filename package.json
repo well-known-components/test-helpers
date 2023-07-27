@@ -4,7 +4,12 @@
   "description": "Test helpers",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "jest --forceExit --detectOpenHandles --coverage --verbose",
+    "lint:check": "eslint '**/*.{js,ts}'",
+    "lint:fix": "eslint '**/*.{js,ts}' --fix"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/well-known-components/test-helpers.git"
