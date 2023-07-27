@@ -1,5 +1,5 @@
 {
-  "name": "@well-known-components/test-helpers",
+  "name": "@dcl/platform-test-helpers",
   "version": "1.1.0",
   "description": "Test helpers",
   "main": "dist/index.js",
@@ -13,15 +13,14 @@
   "author": "",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/well-known-components/test-helpers/issues"
+    "url": "https://github.com/decentraland/platform-test-helpers/issues"
   },
   "prettier": {
     "printWidth": 120,
     "semi": false
   },
-  "homepage": "https://github.com/well-known-components/test-helpers#readme",
+  "homepage": "https://github.com/decentraland/platform-test-helpers#readme",
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.36.0",
     "@well-known-components/http-server": "^2.0.0",
     "@well-known-components/interfaces": "^1.4.2",
     "ts-node": "^10.9.1",
