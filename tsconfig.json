@@ -7,8 +7,7 @@
     "sourceMap": true, /* Generates corresponding '.map' file. */
     "stripInternal": true,
     "types": [
-      "node",
-      "jest"
+      "node"
     ],
     "strict": true,
     "outDir": "./dist", /* Redirect output structure to the directory. */
