@@ -44,8 +44,8 @@ if (!_beforeAll || !_afterAll) {
  */
 export type SpiedInstance<TType extends {}> = {
   [P in keyof TType]: Required<TType>[P] extends (...args: any[]) => any
-    ? jest.SpyInstance<ReturnType<Required<TType>[P]>, jest.ArgsType<Required<TType>[P]>>
-    : never
+  ? jest.SpyInstance<ReturnType<Required<TType>[P]>, jest.ArgsType<Required<TType>[P]>>
+  : never
 }
 
 /**
@@ -58,7 +58,7 @@ export function createRunner<TestComponents extends Record<string, any>>(
 ) {
   return (name: string, suite: (testArgs: TestArguments<TestComponents>) => void) => {
     let program: Lifecycle.ComponentBasedProgram<TestComponents>
-    let sandbox: sinon.SinonSandbox
+    let sandbox: sinon.SinonSandbox | null = null
     const stubComponentInstances = new Map<keyof TestComponents, sinon.SinonStubbedInstance<any>>()
     const spyComponentInstances = new Map<keyof TestComponents, SpiedInstance<any>>()
 
@@ -146,7 +146,7 @@ export function createRunner<TestComponents extends Record<string, any>>(
       })
 
       afterEach(() => {
-        sandbox.restore()
+        sandbox?.restore()
         jest.restoreAllMocks()
       })
 
