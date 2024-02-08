@@ -1,4 +1,5 @@
 import nodeFetch, { RequestInfo, RequestInit } from "node-fetch"
+import * as http from 'http'
 
 import { IFetchComponent } from "@well-known-components/http-server"
 import { IConfigComponent } from "@well-known-components/interfaces"
@@ -31,11 +32,13 @@ export async function createLocalFetchCompoment(
   const protocolHostAndProtocol = `http://${await configComponent.requireString(
     "HTTP_SERVER_HOST"
   )}:${await configComponent.requireNumber("HTTP_SERVER_PORT")}`
+
+  const agent = new http.Agent({ keepAlive: false })
   // test fetch, to hit our local server
   const localFetch: IFetchComponent = {
     async fetch(url: RequestInfo, initRequest?: RequestInit) {
       if (typeof url == "string" && url.startsWith("/")) {
-        return nodeFetch(protocolHostAndProtocol + url, { ...initRequest })
+        return nodeFetch(protocolHostAndProtocol + url, { agent, ...initRequest })
       } else {
         throw new Error("localFetch only works for local testing-URLs")
       }
