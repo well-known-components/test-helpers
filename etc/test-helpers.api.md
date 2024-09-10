@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="jest" />
-
 import { IConfigComponent } from '@well-known-components/interfaces';
 import { IFetchComponent } from '@well-known-components/interfaces';
 import { Lifecycle } from '@well-known-components/interfaces';
