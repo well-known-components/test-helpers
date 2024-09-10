@@ -17,12 +17,14 @@
   },
   "prettier": {
     "printWidth": 120,
-    "semi": false
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "tabWidth": 2
   },
   "homepage": "https://github.com/well-known-components/test-helpers#readme",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.36.0",
-    "@well-known-components/http-server": "^2.0.0",
     "@well-known-components/interfaces": "^1.4.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.5"
