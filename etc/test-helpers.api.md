@@ -4,10 +4,8 @@
 
 ```ts
 
-/// <reference types="jest" />
-
 import { IConfigComponent } from '@well-known-components/interfaces';
-import { IFetchComponent } from '@well-known-components/http-server';
+import { IFetchComponent } from '@well-known-components/interfaces';
 import { Lifecycle } from '@well-known-components/interfaces';
 import { default as sinon_2 } from 'sinon';
 
